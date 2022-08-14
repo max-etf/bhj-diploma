@@ -12,6 +12,9 @@ class Modal {
    * необходимо выкинуть ошибку.
    * */
   constructor(element){
+    if (!element) {
+      throw new Error(`Empty element`)
+    }
     this.element = element;
     this.registerEvents();
   }
@@ -22,7 +25,13 @@ class Modal {
    * (с помощью метода Modal.onClose)
    * */
   registerEvents() {
-        this.element.querySelectorAll('[data-dismiss="modal"]').forEach(element => this.onClose(element))
+        this.element.querySelectorAll('[data-dismiss="modal"]').forEach(element => {
+          element.addEventListener("click", e => {
+            this.onClose(e);
+          })
+          //element.preventDefault();
+          //this.onClose(element);
+        })
     }
 
   /**
@@ -30,7 +39,7 @@ class Modal {
    * Закрывает текущее окно (Modal.close())
    * */
   onClose(e) {
-    //e.preventDefault();  /* а собственно, почему ? */
+    e.preventDefault();  /* а собственно, почему ? */
     this.close();
   }
   /**
