@@ -14,7 +14,9 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-
+      this.element = element;
+      this.registerEvents();
+      this.update();
   }
 
   /**
@@ -25,7 +27,14 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-
+      this.element.onclick = e => {
+        e.preventDefault();
+        const element = e.target.closest('li');
+        if (element.classList.contains('header')){
+          return
+        }
+        element.classList.add('active');
+      };
   }
 
   /**
@@ -39,7 +48,14 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
-
+      Account.list(null, (err,resp) => {
+          if(resp && resp.success) {
+            this.clear();
+            resp.data.forEach(element => {
+              this.renderItem(element);
+            });
+          }
+      });
   }
 
   /**
@@ -48,7 +64,7 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
-
+      this.element.querySelectorAll('.account').forEach(element => element.remove())
   }
 
   /**
@@ -68,7 +84,12 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item){
-
+      return `<li class="account" data-id="${item.id}">
+      <a href="#">
+          <span>${item.name}</span> /
+          <span>${item.sum}</span>
+      </a>
+  </li>`
   }
 
   /**
@@ -78,6 +99,7 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem(data){
-
+      this.element.insertAdjacentHTML('beforeend', this.getAccountHTML(data))
+      
   }
 }
