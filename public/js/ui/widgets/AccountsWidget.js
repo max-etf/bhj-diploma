@@ -14,6 +14,9 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
+      if (!element) {
+        throw new Error('Empty element in AccountsWidget')
+      }
       this.element = element;
       this.registerEvents();
       this.update();
@@ -27,14 +30,15 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-      this.element.onclick = e => {
-        e.preventDefault();
-        const element = e.target.closest('li');
-        if (element.classList.contains('header')){
-          return
-        }
-        element.classList.add('active');
-      };
+    document.querySelector(".accounts-panel").addEventListener('click', (e) => {
+      e.preventDefault();
+      if (e.target == this.element.querySelector(".create-account")) {
+        App.getModal("createAccount").open();
+      }
+      if (e.target.closest(".account")) {
+        this.onSelectAccount(e.target.closest(".account"));
+      }
+    });
   }
 
   /**
@@ -48,14 +52,16 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
-      Account.list(null, (err,resp) => {
+    if (User.current()) {
+      Account.list(User.current(), (err,resp) => {
           if(resp && resp.success) {
             this.clear();
-            resp.data.forEach(element => {
+              resp.data.forEach(element => {
               this.renderItem(element);
             });
           }
       });
+    }
   }
 
   /**
@@ -75,7 +81,22 @@ class AccountsWidget {
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
   onSelectAccount( element ) {
-
+  const activeAccount = this.element.querySelector('.active');
+    if (activeAccount) {
+      activeAccount.classList.remove('active');
+    }
+    element.classList.add('active');
+    //TransactionsPage.renderTitle(element.name);
+    App.showPage('transactions', { account_id: element.dataset.id }); 
+/* !!!todo !!! */
+/*       this.element.onclick = e => {
+      e.preventDefault();
+      const element = e.target.closest('li');
+      if (element.classList.contains('header')){
+        return
+      }
+      element.classList.add('active');
+    }; */ 
   }
 
   /**

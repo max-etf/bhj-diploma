@@ -11,7 +11,11 @@ class TransactionsPage {
    * через registerEvents()
    * */
   constructor( element ) {
-
+      if(!element) {
+        throw new Error('Empty element TransactionPage')
+      }
+      this.element = element;
+      this.registerEvents();
   }
 
   /**
@@ -28,7 +32,9 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-
+    this.element.querySelector('.remove-account').onclick = e => {
+      this.removeAccount();
+    }
   }
 
   /**
@@ -41,7 +47,13 @@ class TransactionsPage {
    * для обновления приложения
    * */
   removeAccount() {
-
+      Account.remove({id: null},(err,resp) => {
+        if (resp && resp.success) {
+          App.updateWidgets();
+          App.updateForms();
+          this.clear();
+        }
+      })
   }
 
   /**
@@ -61,7 +73,11 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render(options){
-
+    Account.get(options.account_id, (err,resp) => {
+      if(resp){
+        this.renderTitle(resp.data.name);
+      }
+    })
   }
 
   /**
@@ -70,14 +86,15 @@ class TransactionsPage {
    * Устанавливает заголовок: «Название счёта»
    * */
   clear() {
-
+    this.renderTransactions([]);
+    this.renderTitle("Название счёта");
   }
 
   /**
    * Устанавливает заголовок в элемент .content-title
    * */
   renderTitle(name){
-
+    this.element.querySelector('.content-title').innerText = name;
   }
 
   /**
