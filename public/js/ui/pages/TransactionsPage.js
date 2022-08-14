@@ -185,15 +185,11 @@ class TransactionsPage {
    * */
   renderTransactions(data){
     /* TODO !!! */
-    let transaction = this.element.querySelector('.content');
-    let transactionHTML = '';
-    if (data) {
-      for (let i = 0; i < data.length; i++) {
-        let HTML = this.getTransactionHTML(data[i]);
-        transactionHTML = HTML + transactionHTML;
-      }
+    const content = this.element.querySelector('.content');
+    for (let i = 0; i < data.length; i++) {
+      content.insertAdjacentHTML('afterbegin', this.getTransactionHTML(data[i]))
     }
-    transaction.innerHTML = transactionHTML;
   }
+
 
 }
