@@ -12,6 +12,9 @@ class UserWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor(element){
+    if(!element){
+      throw new Error('Empty element class UserWidget');
+    }
       this.element = element;
   }
 

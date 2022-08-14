@@ -58,7 +58,7 @@ class TransactionsPage {
    * для обновления приложения
    * */
   removeAccount() {
-    if (confirm('Вы действительно хотите удалить счёт?')) {
+    if (confirm('Вы действительно хотите удалить счёт?')&&(this.lastOptions !== null)) {
       Account.remove({ id: this.lastOptions.account_id }, (err, response) => {
         if (response.success) {
         App.updateWidgets();
