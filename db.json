@@ -11,6 +11,12 @@
       "email": "test@test.ru",
       "password": "test",
       "id": "w2iy3gwl6t5qtjz"
+    },
+    {
+      "name": "qweqwe",
+      "email": "qwe@qwe",
+      "password": "qwe",
+      "id": "w2iya10l6tfsy2t"
     }
   ],
   "accounts": [
@@ -32,6 +38,11 @@
     {
       "user_id": "w2iy3gwl6t5qtjz",
       "id": "w2iy1c8l6tcfugr"
+    },
+    {
+      "name": "qqqqqq",
+      "user_id": "w2iya10l6tfsy2t",
+      "id": "w2iya10l6tft4qv"
     }
   ],
   "transactions": [
