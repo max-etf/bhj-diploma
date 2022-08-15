@@ -66,6 +66,7 @@ class TransactionsPage {
         this.clear();
         }
       });
+      //TransactionsPage.clear();
     }
   }
 
@@ -80,6 +81,7 @@ class TransactionsPage {
       Transaction.remove({ id }, (err, response) => {
         if (response.success) {
           App.update();
+         // this.update();
         }
       })
     }
@@ -184,6 +186,12 @@ class TransactionsPage {
    * используя getTransactionHTML
    * */
   renderTransactions(data){
+    if(data.length===0){
+      let transactions = document.querySelectorAll('.transaction');
+      transactions.forEach(element => {
+        element.remove();
+      });
+    }
     /* TODO !!! */
     const content = this.element.querySelector('.content');
     for (let i = 0; i < data.length; i++) {
