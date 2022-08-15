@@ -60,7 +60,7 @@ class User {
    * User.setCurrent.
    * */
   static login(data, callback) {
-    createRequest({
+    return createRequest({
       url: this.URL + '/login',
       method: 'POST',
       //responseType: 'json',
@@ -81,7 +81,7 @@ class User {
    * User.setCurrent.
    * */
   static register(data, callback) {
-    createRequest({
+    return createRequest({
       url: this.URL + '/register',
       method: 'POST',
       //responseType: 'json',
@@ -100,7 +100,7 @@ class User {
    * выхода необходимо вызвать метод User.unsetCurrent
    * */
   static logout(callback) {
-    createRequest({
+    return createRequest({
       url: this.URL + '/logout',
       method: 'POST',
       //responseType: 'json',
